@@ -517,7 +517,7 @@ class SCDPipline:
         # ===== 2) 单尺度 seeding（和 _seed_from_single 一致，用于 Pipeline / clustering）=====
         J_single, peaks_single = self._seed_candidates(x, sr,block_vecs)
 
-        # ===== 3) 复制 _run_cluster_hysteresis_backend 的 1~3 步，得到 segments / labels / J_list / C_list / scores / centers =====
+        # ===== 3) run_cluster_hysteresis_backend 的 1~3 步，得到 segments / labels / J_list / C_list / scores / centers =====
         # 3.1) segments from peaks
         segments = self._segments_from_peaks(len(blocks), blocks, peaks_single)
 
@@ -543,7 +543,7 @@ class SCDPipline:
             labels = cluster_segments(seg_vecs, method="dbscan", eps=0.25, min_samples=2)
         labels = temporal_smooth(labels, min_len=self.cfg.min_run_segments)
 
-        # 3.3) boundary scores: J_ij + C_ij（完全照抄 _run_cluster_hysteresis_backend 的逻辑）
+        # 3.3) boundary scores: J_ij + C_ij
         J_list, C_list = [], []
         for i in range(len(segments) - 1):
             idx_i = seg_block_ranges[i]
@@ -788,7 +788,6 @@ class SCDPipline:
             sr: int,
             blocks: List[Tuple[int,int]],
             block_vecs: np.ndarray,
-            #peaks: np.ndarray,  # 可以保留参数，但会被覆盖
         ) -> Dict[str, np.ndarray]:
 
             # === 新增：用 _seed_candidates 做种子 ===
