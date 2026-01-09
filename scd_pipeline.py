@@ -790,7 +790,7 @@ class SCDPipline:
             block_vecs: np.ndarray,
         ) -> Dict[str, np.ndarray]:
 
-            # === 新增：用 _seed_candidates 做种子 ===
+            # === 用 _seed_candidates 做种子 ===
             seed, peaks = self._seed_candidates(x, sr, block_vecs)
             # 后面全部沿用原来的逻辑，用新的 peaks 来构造 segments
 
